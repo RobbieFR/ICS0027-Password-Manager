@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>TalTech Vault | Inscription</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div class="auth-container">
+        <h2 class="glitch-title">Créer un Vault</h2>
+
+        <?php
+        if (isset($_SESSION['flash_message'])) {
+            $msg = $_SESSION['flash_message'];
+            $class = $msg['type'] === 'error' ? 'flash-error' : 'flash-success';
+            echo "<div class='flash-message {$class}'>";
+            echo "<span><strong>{$msg['title']}</strong> : {$msg['message']}</span>";
+            echo "</div>";
+            unset($_SESSION['flash_message']);
+        }
+        ?>
+
+        <form action="/register" method="post">
+            <input type="hidden" name="csrf_token" value="<?= csrf_token(); ?>">
+            
+            <div class="form-group">
+                <input type="email" name="email" placeholder="E-mail" required>
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" placeholder="Master Password (8 min)" required>
+            </div>
+            <div class="form-group">
+                <input type="password" name="password_confirm" placeholder="Confirmer le Master Password" required>
+            </div>
+            
+            <button type="submit" class="btn-neon">Initialiser la Base</button>
+        </form>
+        
+        <div style="margin-top: 1.5rem; text-align: center;">
+            <p style="color: var(--text-muted);">Clé déjà générée ? <a href="/login">Accéder au Vault</a></p>
+        </div>
+    </div>
+</body>
+</html>

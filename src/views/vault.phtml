@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>TalTech Vault</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div class="vault-header">
+        <h1 class="glitch-title">SECURE VAULT</h1>
+        <p style="color: var(--text-muted); font-family: var(--font-mono);">
+            Agent: <?= htmlspecialchars($_SESSION['email'] ?? 'Connecté') ?>
+        </p>
+        <p style="color: var(--success); font-family: var(--font-mono); margin-top: 10px;">
+            >_ Statut: Chiffrement AES-256-GCM actif.
+        </p>
+        
+        <a href="/logout" class="logout-link">Quitter le réseau</a>
+    </div>
+</body>
+</html>

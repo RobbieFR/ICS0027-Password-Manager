@@ -1,0 +1,274 @@
+/* =========================================================
+   THEME: Cyber-Vault (GitHub Dark x TalTech x Neon Gambling)
+   ========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Fira+Code:wght@400;600&display=swap');
+
+:root {
+    /* Couleurs GitHub Dark */
+    --bg-main: #0d1117;
+    --bg-card: #161b22;
+    --border-color: #30363d;
+    --text-main: #c9d1d9;
+    --text-muted: #8b949e;
+
+    /* Couleurs TalTech / Gambling Neon */
+    --taltech-red: #E20613;
+    --neon-red: #ff2a3a;
+    --neon-glow: 0 0 10px rgba(226, 6, 19, 0.4), 0 0 20px rgba(255, 42, 58, 0.2);
+    --neon-glow-strong: 0 0 15px rgba(226, 6, 19, 0.6), 0 0 30px rgba(255, 42, 58, 0.4), 0 0 45px rgba(226, 6, 19, 0.2);
+    
+    /* Succès / Erreur */
+    --success: #2ea043;
+    --error: #f85149;
+
+    /* Typographie */
+    --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+    --font-mono: 'Fira Code', monospace;
+}
+
+/* =========================================
+   RESET GLOBAL & BACKGROUND
+   ========================================= */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-sans);
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    /* Effet "Table de jeu cyber" : grille subtile en fond */
+    background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 30px 30px;
+    background-position: center center;
+}
+
+/* =========================================
+   TYPOGRAPHIE
+   ========================================= */
+h1, h2, h3 {
+    color: #ffffff;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    margin-bottom: 1.5rem;
+}
+
+h2.glitch-title {
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    text-shadow: var(--neon-glow);
+    position: relative;
+}
+
+a {
+    color: var(--taltech-red);
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+a:hover {
+    color: var(--neon-red);
+    text-shadow: var(--neon-glow);
+}
+
+/* =========================================
+   CONTENEURS & CARTES (Le "Vault")
+   ========================================= */
+.auth-container {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 3rem;
+    width: 100%;
+    max-width: 450px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+    position: relative;
+    overflow: hidden;
+    animation: slideUp 0.5s ease-out forwards;
+}
+
+/* Ligne néon en haut de la carte */
+.auth-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--taltech-red), transparent);
+    box-shadow: var(--neon-glow);
+}
+
+/* =========================================
+   FORMULAIRES (Le côté Pro/Manager)
+   ========================================= */
+.form-group {
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    background: var(--bg-main);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    padding: 12px 16px;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-family: var(--font-mono); /* Monospace pour donner un style "code/sécurité" */
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+input[type="password"] {
+    letter-spacing: 2px; /* Espacement pour les mots de passe */
+}
+
+input:focus {
+    border-color: var(--taltech-red);
+    box-shadow: var(--neon-glow);
+    background: #10141b;
+}
+
+input::placeholder {
+    color: var(--text-muted);
+    font-family: var(--font-sans);
+    letter-spacing: normal;
+}
+
+/* =========================================
+   BOUTONS (Le côté Gambling / Casino)
+   ========================================= */
+.btn-neon {
+    width: 100%;
+    background: linear-gradient(135deg, var(--taltech-red), #9e040d);
+    color: white;
+    border: none;
+    padding: 14px;
+    font-size: 1.1rem;
+    font-weight: 800;
+    border-radius: 6px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.btn-neon::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: -1;
+}
+
+.btn-neon:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--neon-glow-strong);
+}
+
+.btn-neon:hover::after {
+    opacity: 1;
+    animation: rotateGlow 3s linear infinite;
+}
+
+.btn-neon:active {
+    transform: translateY(1px);
+    box-shadow: var(--neon-glow);
+}
+
+/* =========================================
+   ALERTES (Flash Messages)
+   ========================================= */
+.flash-message {
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    border-left: 4px solid;
+    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.flash-error {
+    background: rgba(248, 81, 73, 0.1);
+    border-left-color: var(--error);
+    color: #ff7b72;
+}
+
+.flash-success {
+    background: rgba(46, 160, 67, 0.1);
+    border-left-color: var(--success);
+    color: #3fb950;
+}
+
+/* =========================================
+   ANIMATIONS
+   ========================================= */
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes popIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes rotateGlow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* =========================================
+   VAULT (Dashboard basique)
+   ========================================= */
+.vault-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.vault-header h1 {
+    font-size: 3rem;
+    text-shadow: var(--neon-glow);
+}
+
+.logout-link {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.logout-link:hover {
+    border-color: var(--error);
+    color: var(--error);
+    box-shadow: 0 0 10px rgba(248, 81, 73, 0.2);
+}

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>TalTech Vault | Connexion</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div class="auth-container">
+        <h2 class="glitch-title">Connexion</h2>
+        
+        <?php
+        if (isset($_SESSION['flash_message'])) {
+            $msg = $_SESSION['flash_message'];
+            $class = $msg['type'] === 'error' ? 'flash-error' : 'flash-success';
+            echo "<div class='flash-message {$class}'>";
+            echo "<span><strong>{$msg['title']}</strong> : {$msg['message']}</span>";
+            echo "</div>";
+            unset($_SESSION['flash_message']);
+        }
+        ?>
+
+        <form action="/login" method="post">
+            <input type="hidden" name="csrf_token" value="<?= csrf_token(); ?>">
+            <input type="hidden" name="redirect_to" value="/vault">
+            
+            <div class="form-group">
+                <input type="email" name="email" placeholder="E-mail universitaire" required autocomplete="email">
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" placeholder="Master Password" required autocomplete="current-password">
+            </div>
+            
+            <button type="submit" class="btn-neon">Déchiffrer</button>
+        </form>
+        
+        <div style="margin-top: 1.5rem; text-align: center;">
+            <p style="color: var(--text-muted);">Nouvel agent ? <a href="/register">Forger une clé</a></p>
+        </div>
+    </div>
+</body>
+</html>
