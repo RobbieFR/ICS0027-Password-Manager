@@ -42,7 +42,7 @@ It focuses on the secure storage of credentials using server-side encryption, ro
 
 * `/login` - User authentication and key derivation.
 
-* `/home` - The main password vault interface.
+* `/vault` - The main password vault interface.
 
 * `/settings` - User account configuration.
 

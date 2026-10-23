@@ -1,9 +1,8 @@
 <?php
-
 require_once __DIR__ . '/../bootstrap.php';
 
 if (isset($_SESSION['user_id'])) {
-    header("Location: /");
+    header("Location: /vault");
     exit();
 }
 
@@ -11,8 +10,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     verify_csrf_token();
 
     $rateLimit = new RateLimitService($pdo);
+
     if (!$rateLimit->checkLimit(0, 'login', 5, 15)) {
-        $_SESSION['flash_message'] = ['type' => 'error', 'title' => 'Erreur', 'message' => 'Trop de tentatives échouées. Veuillez patienter 15 minutes.'];
+        $_SESSION['flash_message'] = [
+            'type' => 'error',
+            'title' => 'Error',
+            'message' => 'Too many failed attempts. Please wait 15 minutes.'
+        ];
         header('Location: /login');
         exit();
     }
@@ -22,8 +26,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (empty($identifier) || empty($password)) {
         $rateLimit->logAttempt(0, 'login', '', false, $identifier);
-        $_SESSION['email'] = $user['email'];
-        $_SESSION['flash_message'] = ['type' => 'error', 'title' => 'Erreur', 'message' => 'Veuillez remplir tous les champs.'];
+        $_SESSION['flash_message'] = [
+            'type' => 'error',
+            'title' => 'Error',
+            'message' => 'Please fill in all fields.'
+        ];
         header('Location: /login');
         exit();
     }
@@ -32,26 +39,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user = $userModel->findByEmail($identifier);
 
     if ($user && password_verify($password, $user['master_password_hash'])) {
-
-        $rateLimit->logAttempt($user['id'], 'login', '', true, $identifier);
-
+        $rateLimit->logAttempt((int)$user['user_id'], 'login', '', true, $identifier);
         session_regenerate_id(true);
 
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['flash_message'] = ['type' => 'success', 'title' => 'Connexion réussie', 'message' => 'Bienvenue, ' . htmlspecialchars($user['email']) . ' !'];
+        $derivedKey = EncryptionService::deriveKey($password, $user['kdf_salt']);
+        $_SESSION['encryption_key'] = base64_encode($derivedKey);
+
+        $password = str_repeat("\0", strlen($password));
+        $derivedKey = str_repeat("\0", strlen($derivedKey));
+        unset($password, $derivedKey, $_POST['password']);
+
+        $_SESSION['user_id'] = $user['user_id'];
+        $_SESSION['email'] = $user['email'];
+        $_SESSION['flash_message'] = [
+            'type' => 'success',
+            'title' => 'Login Successful',
+            'message' => 'Welcome, ' . htmlspecialchars($user['email']) . '!'
+        ];
+
         $redirectTo = $_POST['redirect_to'] ?? '/vault';
-        $safeRedirectUrl = '/';
-        if (strpos($redirectTo, '//') === 0) {
-        } elseif (strpos($redirectTo, '/') === 0) {
+        $safeRedirectUrl = '/vault';
+        if (strpos($redirectTo, '/') === 0 && strpos($redirectTo, '//') !== 0) {
             $safeRedirectUrl = $redirectTo;
         }
         header('Location: ' . $safeRedirectUrl);
         exit();
     } else {
-        $userIdForLog = $user ? $user['id'] : 0;
-        $rateLimit->logAttempt($userIdForLog, 'login', '', false, $identifier);
+        $password = str_repeat("\0", strlen($password));
+        unset($password, $_POST['password']);
 
-        $_SESSION['flash_message'] = ['type' => 'error', 'title' => 'Échec de la connexion', 'message' => 'Identifiant ou mot de passe incorrect.'];
+        $userIdForLog = $user ? (int)$user['user_id'] : 0;
+        $rateLimit->logAttempt($userIdForLog, 'login', '', false, $identifier);
+        $_SESSION['flash_message'] = [
+            'type' => 'error',
+            'title' => 'Login Failed',
+            'message' => 'Invalid email or password.'
+        ];
         header('Location: /login');
         exit();
     }

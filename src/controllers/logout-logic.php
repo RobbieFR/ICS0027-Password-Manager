@@ -1,15 +1,17 @@
 <?php
-
 require_once __DIR__ . '/../bootstrap.php';
 
 $_SESSION['flash_message'] = [
     'type' => 'success',
-    'title' => 'Déconnexion',
-    'message' => 'Vous avez été déconnecté avec succès.'
+    'title' => 'Logged Out',
+    'message' => 'You have been successfully logged out.'
 ];
 
-unset($_SESSION['user_id']);
-unset($_SESSION['email']);
+if (isset($_SESSION['encryption_key'])) {
+    $_SESSION['encryption_key'] = str_repeat("\0", strlen($_SESSION['encryption_key']));
+}
+
+unset($_SESSION['user_id'], $_SESSION['email'], $_SESSION['encryption_key']);
 
 session_regenerate_id(true);
 

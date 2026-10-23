@@ -1,35 +1,21 @@
-/* =========================================================
-   THEME: Cyber-Vault (GitHub Dark x TalTech x Neon Gambling)
-   ========================================================= */
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Fira+Code:wght@400;600&display=swap');
 
 :root {
-    /* Couleurs GitHub Dark */
     --bg-main: #0d1117;
     --bg-card: #161b22;
     --border-color: #30363d;
     --text-main: #c9d1d9;
     --text-muted: #8b949e;
-
-    /* Couleurs TalTech / Gambling Neon */
     --taltech-red: #E20613;
     --neon-red: #ff2a3a;
     --neon-glow: 0 0 10px rgba(226, 6, 19, 0.4), 0 0 20px rgba(255, 42, 58, 0.2);
     --neon-glow-strong: 0 0 15px rgba(226, 6, 19, 0.6), 0 0 30px rgba(255, 42, 58, 0.4), 0 0 45px rgba(226, 6, 19, 0.2);
-    
-    /* Succès / Erreur */
     --success: #2ea043;
     --error: #f85149;
-
-    /* Typographie */
     --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
     --font-mono: 'Fira Code', monospace;
 }
 
-/* =========================================
-   RESET GLOBAL & BACKGROUND
-   ========================================= */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -46,7 +32,7 @@ body {
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    /* Effet "Table de jeu cyber" : grille subtile en fond */
+    padding: 1.5rem;
     background-image: 
         linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
@@ -54,18 +40,15 @@ body {
     background-position: center center;
 }
 
-/* =========================================
-   TYPOGRAPHIE
-   ========================================= */
 h1, h2, h3 {
     color: #ffffff;
     font-weight: 800;
     letter-spacing: -0.5px;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
 }
 
 h2.glitch-title {
-    font-size: 2.5rem;
+    font-size: 2.25rem;
     text-transform: uppercase;
     text-shadow: var(--neon-glow);
     position: relative;
@@ -75,7 +58,7 @@ a {
     color: var(--taltech-red);
     text-decoration: none;
     font-weight: 600;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
 }
 
 a:hover {
@@ -83,23 +66,18 @@ a:hover {
     text-shadow: var(--neon-glow);
 }
 
-/* =========================================
-   CONTENEURS & CARTES (Le "Vault")
-   ========================================= */
 .auth-container {
     background: var(--bg-card);
     border: 1px solid var(--border-color);
     border-radius: 12px;
-    padding: 3rem;
+    padding: 2.5rem;
     width: 100%;
     max-width: 450px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
     position: relative;
-    overflow: hidden;
-    animation: slideUp 0.5s ease-out forwards;
+    animation: slideUp 0.4s ease-out forwards;
 }
 
-/* Ligne néon en haut de la carte */
 .auth-container::before {
     content: '';
     position: absolute;
@@ -107,35 +85,42 @@ a:hover {
     left: 0;
     width: 100%;
     height: 3px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
     background: linear-gradient(90deg, transparent, var(--taltech-red), transparent);
     box-shadow: var(--neon-glow);
 }
 
-/* =========================================
-   FORMULAIRES (Le côté Pro/Manager)
-   ========================================= */
 .form-group {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
     position: relative;
+}
+
+.form-hint {
+    display: block;
+    margin-top: 6px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
 }
 
 input[type="text"],
 input[type="email"],
-input[type="password"] {
+input[type="password"],
+input[type="url"] {
     width: 100%;
     background: var(--bg-main);
     border: 1px solid var(--border-color);
     color: var(--text-main);
     padding: 12px 16px;
     border-radius: 6px;
-    font-size: 1rem;
-    font-family: var(--font-mono); /* Monospace pour donner un style "code/sécurité" */
-    transition: all 0.3s ease;
+    font-size: 0.95rem;
+    font-family: var(--font-mono);
+    transition: all 0.2s ease;
     outline: none;
 }
 
 input[type="password"] {
-    letter-spacing: 2px; /* Espacement pour les mots de passe */
+    letter-spacing: 2px;
 }
 
 input:focus {
@@ -150,58 +135,82 @@ input::placeholder {
     letter-spacing: normal;
 }
 
-/* =========================================
-   BOUTONS (Le côté Gambling / Casino)
-   ========================================= */
+.btn,
+.btn-neon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 10px 18px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.btn-neon,
+.btn-primary {
+    background: linear-gradient(135deg, var(--taltech-red), #9e040d);
+    color: #ffffff;
+    border-color: var(--taltech-red);
+}
+
 .btn-neon {
     width: 100%;
-    background: linear-gradient(135deg, var(--taltech-red), #9e040d);
-    color: white;
-    border: none;
-    padding: 14px;
-    font-size: 1.1rem;
+    padding: 13px 20px;
+    font-size: 1rem;
     font-weight: 800;
-    border-radius: 6px;
-    cursor: pointer;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    position: relative;
-    overflow: hidden;
-    z-index: 1;
+    letter-spacing: 0.5px;
 }
 
-.btn-neon::after {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 60%);
-    opacity: 0;
-    transition: opacity 0.3s;
-    z-index: -1;
-}
-
-.btn-neon:hover {
-    transform: translateY(-2px);
+.btn-neon:hover,
+.btn-primary:hover {
+    color: #ffffff;
+    transform: translateY(-1px);
     box-shadow: var(--neon-glow-strong);
 }
 
-.btn-neon:hover::after {
-    opacity: 1;
-    animation: rotateGlow 3s linear infinite;
+.btn-secondary {
+    background: var(--bg-main);
+    color: var(--text-main);
+    border-color: var(--border-color);
 }
 
-.btn-neon:active {
-    transform: translateY(1px);
+.btn-secondary:hover,
+.btn-secondary.active {
+    border-color: var(--taltech-red);
+    color: #ffffff;
     box-shadow: var(--neon-glow);
 }
 
-/* =========================================
-   ALERTES (Flash Messages)
-   ========================================= */
+.btn-danger {
+    background: rgba(248, 81, 73, 0.08);
+    color: var(--error);
+    border-color: var(--error);
+}
+
+.btn-danger:hover {
+    background: var(--error);
+    color: #ffffff;
+    box-shadow: 0 0 12px rgba(248, 81, 73, 0.4);
+}
+
+.btn-sm {
+    padding: 6px 12px;
+    font-size: 0.82rem;
+}
+
+.btn-block {
+    width: 100%;
+    padding: 12px 18px;
+}
+
 .flash-message {
     padding: 12px 16px;
     border-radius: 6px;
@@ -211,7 +220,7 @@ input::placeholder {
     display: flex;
     align-items: center;
     border-left: 4px solid;
-    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    animation: popIn 0.3s ease-out forwards;
 }
 
 .flash-error {
@@ -226,49 +235,397 @@ input::placeholder {
     color: #3fb950;
 }
 
-/* =========================================
-   ANIMATIONS
-   ========================================= */
+.demo-box {
+    margin-top: 1.5rem;
+    padding: 12px 16px;
+    background: var(--bg-main);
+    border: 1px dashed var(--border-color);
+    border-radius: 6px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.demo-title {
+    color: #ffffff;
+    font-weight: 600;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+}
+
 @keyframes slideUp {
-    from { opacity: 0; transform: translateY(20px); }
+    from { opacity: 0; transform: translateY(15px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes popIn {
-    from { opacity: 0; transform: scale(0.9); }
+    from { opacity: 0; transform: scale(0.96); }
     to { opacity: 1; transform: scale(1); }
 }
 
-@keyframes rotateGlow {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+body.vault-body {
+    justify-content: flex-start;
+    padding: 0 1.5rem 3rem;
 }
 
-/* =========================================
-   VAULT (Dashboard basique)
-   ========================================= */
-.vault-header {
-    text-align: center;
-    margin-bottom: 3rem;
+.top-navbar {
+    width: 100%;
+    max-width: 1100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.25rem 0;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
 }
 
-.vault-header h1 {
-    font-size: 3rem;
+.navbar-left,
+.navbar-right,
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.brand-logo {
+    font-weight: 800;
+    font-size: 1.05rem;
+    color: #ffffff;
+    letter-spacing: 1px;
+    margin-right: 12px;
     text-shadow: var(--neon-glow);
 }
 
-.logout-link {
-    display: inline-block;
-    margin-top: 20px;
-    padding: 8px 16px;
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
+.user-badge {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
     color: var(--text-muted);
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    padding: 6px 12px;
+    border-radius: 6px;
+}
+
+.vault-wrapper {
+    width: 100%;
+    max-width: 1100px;
+}
+
+.vault-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.vault-header h1 {
+    font-size: 2.5rem;
+    text-shadow: var(--neon-glow);
+    margin-bottom: 0.5rem;
+}
+
+.status-banner {
+    color: var(--success);
+    font-family: var(--font-mono);
     font-size: 0.9rem;
 }
 
-.logout-link:hover {
-    border-color: var(--error);
-    color: var(--error);
-    box-shadow: 0 0 10px rgba(248, 81, 73, 0.2);
+.vault-main {
+    width: 100%;
+}
+
+.settings-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    align-items: start;
+}
+
+.vault-card {
+    max-width: 100%;
+    padding: 2rem;
+}
+
+.card-header-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.card-header-bar h3 {
+    margin-bottom: 0;
+}
+
+.settings-desc {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+
+.vault-empty {
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    padding: 1rem 0;
+}
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.vault-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+    table-layout: auto;
+}
+
+.vault-table th,
+.vault-table td {
+    padding: 14px 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+    vertical-align: middle;
+}
+
+.vault-table th {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.cell-url,
+.cell-username {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+.cell-actions {
+    width: 1%;
+    white-space: nowrap;
+}
+
+.mono-cell {
+    font-family: var(--font-mono);
+}
+
+.pwd-cell-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.pwd-masked-text {
+    display: inline-block;
+    color: var(--text-muted);
+    letter-spacing: 2px;
+    transition: opacity 0.18s ease, transform 0.18s ease, background-color 0.2s ease, border-color 0.2s ease;
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.pwd-masked-text.is-switching {
+    opacity: 0;
+    transform: translateY(3px) scale(0.97);
+}
+
+.pwd-masked-text.is-revealed {
+    color: #ffffff;
+    background: var(--bg-main);
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 1px solid var(--taltech-red);
+    box-shadow: var(--neon-glow);
+    letter-spacing: normal;
+    overflow-wrap: anywhere;
+}
+
+.pwd-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-reveal,
+.btn-copy {
+    position: relative;
+    width: 34px;
+    height: 32px;
+    padding: 0;
+    overflow: hidden;
+}
+
+.btn-reveal.is-active {
+    border-color: var(--taltech-red);
+    color: var(--neon-red);
+    box-shadow: var(--neon-glow);
+}
+
+.btn-copy.is-copied {
+    border-color: var(--success);
+    color: #3fb950;
+    box-shadow: 0 0 10px rgba(46, 160, 67, 0.35);
+}
+
+.btn-reveal.is-loading,
+.btn-copy.is-loading {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+.icon-eye,
+.icon-copy {
+    position: absolute;
+    transition: opacity 0.22s cubic-bezier(0.4, 0, 0.2, 1), transform 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.icon-copy-default {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+}
+
+.icon-copy-check {
+    opacity: 0;
+    transform: scale(0.5) rotate(-25deg);
+}
+
+.btn-copy.is-copied .icon-copy-default {
+    opacity: 0;
+    transform: scale(0.5) rotate(25deg);
+}
+
+.btn-copy.is-copied .icon-copy-check {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+}
+
+.action-buttons {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.delete-form {
+    margin: 0;
+}
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(4px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    z-index: 1000;
+}
+
+.modal-overlay.is-open {
+    display: flex;
+}
+
+.modal-card {
+    max-width: 480px;
+    width: 100%;
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+
+.modal-header h3 {
+    margin-bottom: 0;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 1.5rem;
+}
+
+@media (max-width: 900px) {
+    .settings-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    body {
+        padding: 1rem;
+    }
+
+    body.vault-body {
+        padding: 0 1rem 2rem;
+    }
+
+    .top-navbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .navbar-left,
+    .navbar-right {
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+
+    .auth-container {
+        padding: 1.5rem 1.25rem;
+    }
+
+    h2.glitch-title,
+    .vault-header h1 {
+        font-size: 1.85rem;
+    }
+
+    .vault-table thead {
+        display: none;
+    }
+
+    .vault-table,
+    .vault-table tbody,
+    .vault-table tr,
+    .vault-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .vault-table tr {
+        padding: 12px 0;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .vault-table td {
+        border-bottom: none;
+        padding: 6px 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        text-align: right;
+    }
+
+    .vault-table td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        text-align: left;
+        flex-shrink: 0;
+    }
+
+    .pwd-cell-wrapper {
+        justify-content: flex-end;
+    }
 }

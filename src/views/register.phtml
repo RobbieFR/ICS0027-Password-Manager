@@ -1,20 +1,22 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TalTech Vault | Inscription</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TalTech Vault | Register</title>    
     <link rel="stylesheet" href="/styles.css">
+    <link rel="icon" type="image/x-icon" href="/favicon.png">
 </head>
 <body>
     <div class="auth-container">
-        <h2 class="glitch-title">Créer un Vault</h2>
+        <h2 class="glitch-title">Create a Vault</h2>
 
         <?php
         if (isset($_SESSION['flash_message'])) {
             $msg = $_SESSION['flash_message'];
             $class = $msg['type'] === 'error' ? 'flash-error' : 'flash-success';
             echo "<div class='flash-message {$class}'>";
-            echo "<span><strong>{$msg['title']}</strong> : {$msg['message']}</span>";
+            echo "<span><strong>{$msg['title']}</strong>: {$msg['message']}</span>";
             echo "</div>";
             unset($_SESSION['flash_message']);
         }
@@ -24,20 +26,20 @@
             <input type="hidden" name="csrf_token" value="<?= csrf_token(); ?>">
             
             <div class="form-group">
-                <input type="email" name="email" placeholder="E-mail" required>
+                <input type="email" name="email" placeholder="Email" required>
             </div>
             <div class="form-group">
-                <input type="password" name="password" placeholder="Master Password (8 min)" required>
+                <input type="password" name="password" placeholder="Master Password (min. 12 chars)" required>
             </div>
             <div class="form-group">
-                <input type="password" name="password_confirm" placeholder="Confirmer le Master Password" required>
+                <input type="password" name="password_confirm" placeholder="Confirm Master Password" required>
             </div>
             
-            <button type="submit" class="btn-neon">Initialiser la Base</button>
+            <button type="submit" class="btn-neon">Sign up</button>
         </form>
         
         <div style="margin-top: 1.5rem; text-align: center;">
-            <p style="color: var(--text-muted);">Clé déjà générée ? <a href="/login">Accéder au Vault</a></p>
+            <p style="color: var(--text-muted);">Existing user? <a href="/login">Login</a></p>
         </div>
     </div>
 </body>

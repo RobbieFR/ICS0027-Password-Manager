@@ -8,7 +8,7 @@ class User {
     }
 
     public function findById(int $id) {
-        $sql = "SELECT * FROM users WHERE id = :id LIMIT 1";
+        $sql = "SELECT * FROM users WHERE user_id = :id LIMIT 1";
         $stmt = $this->db->prepare($sql);
         $stmt->execute(['id' => $id]);
         return $stmt->fetch();
@@ -23,37 +23,36 @@ class User {
 
     public function createUser(string $email, string $password): bool {
         $passwordHash = password_hash($password, PASSWORD_ARGON2ID);
-        $sql = "INSERT INTO users (email, master_password_hash) VALUES (:email, :master_password_hash)";
+        $kdfSalt = bin2hex(random_bytes(16));
+        $sql = "INSERT INTO users (email, master_password_hash, kdf_salt) VALUES (:email, :master_password_hash, :kdf_salt)";
         $stmt = $this->db->prepare($sql);
         
         return $stmt->execute([
             'email' => $email,
-            'master_password_hash' => $passwordHash
+            'master_password_hash' => $passwordHash,
+            'kdf_salt' => $kdfSalt
         ]);
     }
     
-    public function updatePassword(int $userId, string $newPassword): bool {
+    public function updatePasswordAndSalt(int $userId, string $newPassword, string $newKdfSalt): bool {
         $passwordHash = password_hash($newPassword, PASSWORD_ARGON2ID);
-        $sql = "UPDATE users SET password_hash = :password_hash WHERE id = :id";
+        $sql = "UPDATE users SET master_password_hash = :password_hash, kdf_salt = :kdf_salt WHERE user_id = :id";
         $stmt = $this->db->prepare($sql);
-        return $stmt->execute(['password_hash' => $passwordHash, 'id' => $userId]);
+        return $stmt->execute([
+            'password_hash' => $passwordHash,
+            'kdf_salt'      => $newKdfSalt,
+            'id'            => $userId
+        ]);
     }
 
     public function deleteUser(int $userId): bool {
-        $sql = "DELETE FROM users WHERE id = :id";
+        $sql = "DELETE FROM users WHERE user_id = :id";
         $stmt = $this->db->prepare($sql);
         return $stmt->execute(['id' => $userId]);
     }
-
-    public function findByUsername(string $username){
-        $sql = "SELECT id, username, email FROM users WHERE username = :username";
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute(['username' => $username]);
-        return $stmt->fetch();
-    }
     
     public function getUserEmail(int $userId) {
-        $sql = "SELECT email FROM users WHERE id = :id LIMIT 1";
+        $sql = "SELECT email FROM users WHERE user_id = :id LIMIT 1";
         $stmt = $this->db->prepare($sql);
         $stmt->execute(['id' => $userId]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);

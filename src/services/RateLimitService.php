@@ -5,8 +5,8 @@ class RateLimitService {
 
     private const MAX_FAILURES = 6;
     private const WINDOW_MINUTES = 1;
-    // 6 tentatives max par tranche d'1 minute
-    // 1 tentatives toutes les 10s
+    // 6 tries per min 
+    // 1 try per 10s
 
     public function __construct(PDO $pdo) {
         $this->pdo = $pdo;

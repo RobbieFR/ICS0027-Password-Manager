@@ -12,18 +12,18 @@ function verify_csrf_token(): void
 {
     if (empty($_SESSION['csrf_token'])) {
         http_response_code(403);
-        die('Erreur : Jeton CSRF non trouvé en session.');
+        die('Error: CSRF token not found in session.');
     }
 
     $token = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? $_POST['csrf_token'] ?? null;
 
     if ($token === null) {
         http_response_code(403);
-        die('Erreur : Jeton CSRF manquant dans la requête.');
+        die('Error: CSRF token missing from request.');
     }
 
     if (!hash_equals($_SESSION['csrf_token'], $token)) {
         http_response_code(403);
-        die('Erreur : Jeton CSRF invalide.');
+        die('Error: Invalid CSRF token.');
     }
 }

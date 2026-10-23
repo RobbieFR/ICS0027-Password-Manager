@@ -1,10 +1,9 @@
 CREATE TABLE IF NOT EXISTS users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(255) NOT NULL UNIQUE,
     master_password_hash VARCHAR(255) NOT NULL,
     totp_secret VARCHAR(255) DEFAULT NULL,
-    verification_token VARCHAR(255) DEFAULT NULL,
-    is_verified TINYINT(1) DEFAULT 1
+    kdf_salt VARCHAR(255) DEFAULT NULL
 );
 
 CREATE TABLE IF NOT EXISTS vault_entries (
@@ -14,7 +13,7 @@ CREATE TABLE IF NOT EXISTS vault_entries (
     encrypted_username TEXT NOT NULL,
     encrypted_password TEXT NOT NULL,
     iv VARCHAR(255) NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS submission_logs (
